@@ -13,33 +13,27 @@ import sys
 # The function accepts STRING s as parameter.
 #
 
-
 def anagram(s):
+    # if odd length, can't split evenly
     if len(s) % 2 != 0:
         return -1
-    else:
-        firstString = s[0:len(s)//2]
-        secondString = s[len(s)//2:]
-
-        freq = {}
-
-        for i in range(len(s)):
-            if s[i] not in freq:
-                freq[s[i]] = 0
-
-        for i in range(len(firstString)):
-            if firstString[i] in freq:
-                freq[firstString[i]] += 1
-
-        for i in range(len(secondString)):
-            if secondString[i] in freq:
-                freq[secondString[i]] -= 1
-
-        total = 0
-        for v in freq.values():
-            if v > 0:
-                total += v
-        return total
+    
+    # split into two halves
+    mid = len(s) // 2
+    first, second = s[:mid], s[mid:]
+    
+    # count characters in each half
+    freq_first = {}
+    for ch in first:
+        freq_first[ch] = freq_first.get(ch, 0) + 1
+    
+    # subtract chars found in second half
+    for ch in second:
+        if ch in freq_first and freq_first[ch] > 0:
+            freq_first[ch] -= 1
+    
+    # sum leftover (these must be changed)
+    return sum(freq_first.values())
 
 
 if __name__ == '__main__':
